@@ -18,7 +18,7 @@
 
 <h2 class='titleHead'>The Linux Kernel Module Programming Guide</h2>
 <div class='author'><span class='ecrm-1200'>Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram, Jim Huang</span></div><br />
-<div class='date'><span class='ecrm-1200'>December 23, 2021</span></div>
+<div class='date'><span class='ecrm-1200'>December 24, 2021</span></div>
                                                                   
 
                                                                   
@@ -1377,8 +1377,9 @@ third method is that we can have our driver make the device file using the
 </code> during the call to <code>  <span class='ectt-1000'>cleanup_module</span>
 </code>.
 </p><!-- l. 899 --><p class='indent'>   However, <code>  <span class='ectt-1000'>register_chrdev()</span>
-</code> would occupy a range of minor numbers associated with the given major. A more
-recommended way to register char device is using cdev interface.
+</code> would occupy a range of minor numbers associated with the given major. The
+recommended way to reduce waste for char device registration is using cdev
+interface.
 </p><!-- l. 902 --><p class='indent'>   The newer interface completes the char device registration in two distinct steps.
 First, we should register a range of device numbers, which can be completed with
 <code> <span class='ectt-1000'>register_chrdev_region</span>
@@ -1393,9 +1394,9 @@ device. Using <code>  <span class='ectt-1000'>register_chrdev_region</span>
 </code> if you know the device major number and
 <code> <span class='ectt-1000'>alloc_chrdev_region</span>
 </code> if you would like to allocate a dynamicly-allocated major number.
-</p><!-- l. 913 --><p class='indent'>   Second, we should initialize the data structure for our char device, which is
+</p><!-- l. 913 --><p class='indent'>   Second, we should initialize the data structure
 <code> <span id='textcolor395'><span class='ectt-1000'>struct</span></span><span class='ectt-1000'> cdev</span>
-</code>, and associate it with the device numbers. To initialize the
+</code> for our char device and associate it with the device numbers. To initialize the
 <code> <span id='textcolor396'><span class='ectt-1000'>struct</span></span><span class='ectt-1000'> cdev</span>
 </code>, we can achieve by the similar sequence of the following codes.
 </p><!-- l. 1 --><p class='indent'>
@@ -1419,8 +1420,8 @@ the <code>  <span class='ectt-1000'>cdev_add</span>
 </p><!-- l. 1 --><p class='indent'>
 </p>
    <pre class='fancyvrb' id='fancyvrb38'><a id='x1-29040r1'></a><span class='ecrm-0500'>1</span><span id='textcolor403'><span class='ectt-0800'>int</span></span><span class='ectt-0800'> cdev_add(</span><span id='textcolor404'><span class='ectt-0800'>struct</span></span><span class='ectt-0800'> cdev *p, </span><span id='textcolor405'><span class='ectt-0800'>dev_t</span></span><span class='ectt-0800'> dev, </span><span id='textcolor406'><span class='ectt-0800'>unsigned</span></span><span class='ectt-0800'> count);</span></pre>
-<!-- l. 934 --><p class='indent'>   To find a example using the interface, you can see <span class='obeylines-h'><span class='verb'><span class='ectt-1000'>ioctl.c</span></span></span> which is located in
-section <a href='#talking-to-device-files'>9<!-- tex4ht:ref: sec:device_files  --></a>.
+<!-- l. 934 --><p class='indent'>   To find a example using the interface, you can see <span class='obeylines-h'><span class='verb'><span class='ectt-1000'>ioctl.c</span></span></span> described in section
+<a href='#talking-to-device-files'>9<!-- tex4ht:ref: sec:device_files  --></a>.
 </p><!-- l. 936 --><p class='noindent'>
 </p>
    <h4 class='subsectionHead' id='unregistering-a-device'><span class='titlemark'>6.4   </span> <a id='x1-300006.4'></a>Unregistering A Device</h4>
